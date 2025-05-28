@@ -1,4 +1,5 @@
-import { createInterface } from "readline"
+import {createInterface} from "readline"
+import {commands as getCommands} from "./commands.js";
 
 export const startREPL = (): void => {
     const rl = createInterface({
@@ -10,11 +11,26 @@ export const startREPL = (): void => {
     rl.prompt()
 
     rl.on("line", (input) => {
-        const words = cleanInput(input)
+        const inputs = cleanInput(input)
 
-        if (words.length) {
-            console.log(`Your command was: ${words[0]}`)
+        if (inputs.length === 0) {
+            rl.prompt()
+            return
         }
+
+        const name = inputs[0]
+
+        const commands = getCommands()
+
+        const cmd = commands[name]
+
+        if (!cmd) {
+            console.log(`Unknown command: ${name}`)
+            rl.prompt()
+            return
+        }
+
+        cmd.callback(commands)
 
         rl.prompt()
     })
