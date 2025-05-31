@@ -1,16 +1,22 @@
 import {createInterface, type Interface} from "readline";
-import {exit, help} from "./commands.js";
+import {map, mapb, exit, help} from "./commands.js";
+import { PokeAPI } from "./api/poke.js";
 
 
 export type CLICommand = {
     name: string;
     description: string;
-    callback: (state: State) => void;
+    callback: (state: State) => Promise<void>;
 }
 
 export type State = {
     commands: Record<string, CLICommand>;
     rl: Interface;
+    api: PokeAPI;
+    locations: {
+        next: string | null;
+        previous: string | null;
+    }
 }
 
 export const initState = () => {
@@ -21,6 +27,16 @@ export const initState = () => {
     })
 
     const commands: Record<string, CLICommand> = {
+        mapb: {
+            name: "mapb",
+            description: "Displays previous locations",
+            callback: mapb,
+        },
+        map: {
+            name: "map",
+            description: "Displays next locations",
+            callback: map,
+        },
         help: {
             name: "help",
             description: "Displays a help message",
@@ -33,5 +49,9 @@ export const initState = () => {
         }
     }
 
-    return {commands, rl}
+    const api = new PokeAPI
+
+    const locations = {next: null, previous: null}
+
+    return {commands, rl, api, locations}
 }

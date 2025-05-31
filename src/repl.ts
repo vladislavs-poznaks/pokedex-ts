@@ -1,6 +1,6 @@
 import {State} from "./state";
 
-export const startREPL = (state: State): void => {
+export const startREPL = async (state: State): Promise<void> => {
     state.rl.prompt()
 
     state.rl.on("line", (input) => {
