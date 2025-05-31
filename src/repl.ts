@@ -1,38 +1,29 @@
-import {createInterface} from "readline"
-import {commands as getCommands} from "./commands.js";
+import {State} from "./state";
 
-export const startREPL = (): void => {
-    const rl = createInterface({
-        input: process.stdin,
-        output: process.stdout,
-        prompt: "pokedex > ",
-    })
+export const startREPL = (state: State): void => {
+    state.rl.prompt()
 
-    rl.prompt()
-
-    rl.on("line", (input) => {
+    state.rl.on("line", (input) => {
         const inputs = cleanInput(input)
 
         if (inputs.length === 0) {
-            rl.prompt()
+            state.rl.prompt()
             return
         }
 
         const name = inputs[0]
 
-        const commands = getCommands()
-
-        const cmd = commands[name]
+        const cmd = state.commands[name]
 
         if (!cmd) {
             console.log(`Unknown command: ${name}`)
-            rl.prompt()
+            state.rl.prompt()
             return
         }
 
-        cmd.callback(commands)
+        cmd.callback(state)
 
-        rl.prompt()
+        state.rl.prompt()
     })
 }
 

@@ -1,34 +1,18 @@
-export type CLICommand = {
-    name: string;
-    description: string;
-    callback: (commands: Record<string, CLICommand>) => void;
-}
+import {State} from "./state";
 
-export const exit = (): void => {
+export const exit = (state: State): void => {
     console.log("Closing the Pokedex... Goodbye!")
 
+    state.rl.close()
     process.exit(0)
 }
 
-export const help = (commands: Record<string, CLICommand>): void => {
+export const help = (state: State): void => {
     console.log("Welcome to the Pokedex!")
     console.log("Usage:")
     console.log()
 
-    for (const name in commands) {
-        console.log(`${name}: ${commands[name].description}`)
+    for (const name in state.commands) {
+        console.log(`${name}: ${state.commands[name].description}`)
     }
 }
-
-export const commands = (): Record<string, CLICommand> => ({
-    help: {
-        name: "help",
-        description: "Displays a help message",
-        callback: help,
-    },
-    exit: {
-        name: "exit",
-        description: "Exit the Pokedex",
-        callback: exit,
-    }
-})
