@@ -1,4 +1,4 @@
-import { ShallowLocations } from "./api/poke";
+import { ShallowLocations, Location } from "./api/poke";
 import {State} from "./state";
 
 export const map = async (state: State): Promise<void> => {
@@ -20,6 +20,23 @@ export const mapb = async (state: State): Promise<void> => {
 
     console.log()
     locations.results.map(it => console.log(it.name))
+}
+
+export const explore = async (state: State, ...args: string[]): Promise<void> => {
+    if (args.length === 0) {
+        throw new Error('No location name is provided')
+    }
+
+    const name = args[0]
+
+    const location: Location = await state.api.fetchLocation(name)
+
+    console.log(`Exploring ${name}`)
+    console.log("Found Pokemon:")
+
+    location.pokemon_encounters.map(encounter => {
+        console.log(` - ${encounter.pokemon.name}`)
+    })
 }
 
 export const exit = async (state: State): Promise<void> => {

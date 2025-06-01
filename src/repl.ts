@@ -21,7 +21,7 @@ export const startREPL = async (state: State): Promise<void> => {
             return
         }
 
-        cmd.callback(state)
+        cmd.callback(state, ...inputs.slice(1))
 
         state.rl.prompt()
     })

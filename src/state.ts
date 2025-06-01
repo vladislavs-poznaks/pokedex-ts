@@ -1,12 +1,12 @@
 import {createInterface, type Interface} from "readline";
-import {map, mapb, exit, help} from "./commands.js";
+import {map, mapb, explore, exit, help} from "./commands.js";
 import { PokeAPI } from "./api/poke.js";
 
 
 export type CLICommand = {
     name: string;
     description: string;
-    callback: (state: State) => Promise<void>;
+    callback: (state: State, ...args: string[]) => Promise<void>;
 }
 
 export type State = {
@@ -27,15 +27,20 @@ export const initState = (cacheInterval: number) => {
     })
 
     const commands: Record<string, CLICommand> = {
+        map: {
+            name: "map",
+            description: "Displays next locations",
+            callback: map,
+        },
         mapb: {
             name: "mapb",
             description: "Displays previous locations",
             callback: mapb,
         },
-        map: {
-            name: "map",
-            description: "Displays next locations",
-            callback: map,
+        explore: {
+            name: "explore",
+            description: "Explore an area (needs location name)",
+            callback: explore,
         },
         help: {
             name: "help",
