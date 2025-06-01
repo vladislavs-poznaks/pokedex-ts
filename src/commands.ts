@@ -62,6 +62,37 @@ export const catchPokemon = async (state: State, ...args: string[]): Promise<voi
     }
 }
 
+export const inspectPokemon = async (state: State, ...args: string[]): Promise<void> => {
+    if (args.length === 0) {
+        throw new Error('No Pokemon name is provided')
+    }
+
+    const name = args[0]
+
+    const pokemon: Pokemon | undefined = state.pokedex.get(name)
+
+    if (!pokemon) {
+        console.log("you have not caught that pokemon")
+        return
+    }
+
+    console.log(`Name: ${name}`)
+    console.log(`Height: ${pokemon.height}`)
+    console.log(`Weight: ${pokemon.weight}`)
+    console.log("Stats:")
+
+    pokemon.stats.map(stat => {
+        console.log(` -${stat.stat.name}`)
+    })
+
+    console.log("Types:")
+
+
+    pokemon.types.map(type => {
+        console.log(` -${type.type.name}`)
+    })
+}
+
 export const exit = async (state: State): Promise<void> => {
     console.log("Closing the Pokedex... Goodbye!")
 

@@ -90,6 +90,23 @@ export class PokeAPI {
 
 export type Pokemon = {
     base_experience: number;
+    height: number;
+    weight: number;
+    stats: {
+        base_stat: number;
+        effort: number;
+        stat: {
+            name: string;
+            url: string;
+        }
+    }[];
+    types: {
+        slot: number;
+        type: {
+            name: string;
+            url: string;
+        }
+    }[];
 }
   
 export type ShallowLocations = {
