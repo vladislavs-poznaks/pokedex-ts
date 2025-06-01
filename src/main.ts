@@ -9,5 +9,5 @@ async function main() {
     await startREPL(state)
 }
 
-main();
+await main();
 

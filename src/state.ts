@@ -1,6 +1,6 @@
 import {createInterface, type Interface} from "readline";
-import {map, mapb, explore, exit, help} from "./commands.js";
-import { PokeAPI } from "./api/poke.js";
+import {map, mapb, explore, catchPokemon, exit, help} from "./commands.js";
+import { PokeAPI, Pokemon } from "./api/poke.js";
 
 
 export type CLICommand = {
@@ -13,6 +13,7 @@ export type State = {
     commands: Record<string, CLICommand>;
     rl: Interface;
     api: PokeAPI;
+    pokedex: Map<string, Pokemon>;
     locations: {
         next: string | null;
         previous: string | null;
@@ -42,6 +43,11 @@ export const initState = (cacheInterval: number) => {
             description: "Explore an area (needs location name)",
             callback: explore,
         },
+        catch: {
+            name: "catch",
+            description: "Attempt to catch a Pokemon (need Pokemon name)",
+            callback: catchPokemon,
+        },
         help: {
             name: "help",
             description: "Displays a help message",
@@ -56,7 +62,9 @@ export const initState = (cacheInterval: number) => {
 
     const api = new PokeAPI(cacheInterval)
 
+    const pokedex = new Map<string, Pokemon>
+
     const locations = {next: null, previous: null}
 
-    return {commands, rl, api, locations}
+    return {commands, rl, api, pokedex, locations}
 }
