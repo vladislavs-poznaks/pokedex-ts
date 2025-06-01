@@ -1,5 +1,5 @@
 import {createInterface, type Interface} from "readline";
-import {map, mapb, explore, catchPokemon, exit, help, inspectPokemon} from "./commands.js";
+import {map, mapb, explore, catchPokemon, inspectPokemon, displayPokedex, exit, help} from "./commands.js";
 import { PokeAPI, Pokemon } from "./api/poke.js";
 
 
@@ -52,6 +52,11 @@ export const initState = (cacheInterval: number) => {
             name: "inspect",
             description: "Inspects a Pokemon in Pokedex (needs Pokemon name)",
             callback: inspectPokemon,
+        },
+        pokedex: {
+            name: "pokedex",
+            description: "Displays the Pokedex",
+            callback: displayPokedex,
         },
         help: {
             name: "help",

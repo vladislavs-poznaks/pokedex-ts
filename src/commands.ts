@@ -93,6 +93,14 @@ export const inspectPokemon = async (state: State, ...args: string[]): Promise<v
     })
 }
 
+export const displayPokedex = async (state: State): Promise<void> => {
+    console.log("Your pokedex:")
+
+    for (const [name] of state.pokedex) {
+        console.log(` - ${name}`)
+    }
+}
+
 export const exit = async (state: State): Promise<void> => {
     console.log("Closing the Pokedex... Goodbye!")
 
