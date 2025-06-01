@@ -19,7 +19,7 @@ export type State = {
     }
 }
 
-export const initState = () => {
+export const initState = (cacheInterval: number) => {
     const rl = createInterface({
         input: process.stdin,
         output: process.stdout,
@@ -49,7 +49,7 @@ export const initState = () => {
         }
     }
 
-    const api = new PokeAPI
+    const api = new PokeAPI(cacheInterval)
 
     const locations = {next: null, previous: null}
 
